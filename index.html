@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ru">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real Tek</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+        html, body {
+            height: 100%;
+            box-sizing: border-box;
+        }
+        
+        @import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap');
+        
+        .marker-font {
+            font-family: 'Kalam', cursive;
+            font-weight: 700;
+        }
+        
+        .ca-text {
+            word-break: break-all;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-white overflow-hidden">
+  <main class="h-full flex flex-col items-center justify-center p-4"><!-- Заголовок-картинка -->
+   <div class="mb-4"><img id="site-title-img" src="https://i.postimg.cc/jjqtjHzw/Add-a-little-bit-of-body-text-1.png" alt="Real Tek логотип" class="max-w-full h-auto" style="max-width: 250px; width: 100%;" onerror="this.src=''; this.alt='Логотип не удалось загрузить'; this.style.display='none';">
+   </div><!-- Изображение -->
+   <div class="mb-4"><img src="https://i.postimg.cc/jjSZ2228/Untitled-design-5.png" alt="Real Tek изображение" class="max-w-full h-auto" style="max-width: 350px; width: 100%;" onerror="this.src=''; this.alt='Изображение не удалось загрузить'; this.style.display='none';">
+   </div><!-- CA адрес -->
+   <div class="mb-4 max-w-xl w-full">
+    <p class="text-base font-semibold text-gray-700 mb-1 text-center">CA:</p>
+    <p id="ca-address" class="ca-text text-xs md:text-sm text-gray-600 bg-gray-100 p-2 rounded-lg text-center break-all">8eyTc1WSptjLKFXVM2TBsw5gQRgQyxdgzBmRnxR4pump</p>
+   </div><!-- Кнопка X --> <a href="https://x.com/home" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center w-16 h-16 bg-amber-800 text-white rounded-full hover:bg-amber-700 transition-colors duration-200 shadow-lg hover:shadow-xl">
+    <svg class="w-8 h-8" fill="currentColor" viewbox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+    </svg></a>
+  </main>
+  <script>
+        const defaultConfig = {
+            site_title: "Real Tek",
+            ca_address: "8eyTc1WSptjLKFXVM2TBsw5gQRgQyxdgzBmRnxR4pump",
+            button_text: "Go to X",
+            title_color: "#92400e",
+            background_color: "#ffffff",
+            button_color: "#000000",
+            text_color: "#374151"
+        };
+
+        async function onConfigChange(config) {
+            const titleElement = document.getElementById('site-title');
+            const caElement = document.getElementById('ca-address');
+            const buttonTextElement = document.getElementById('button-text');
+            
+            if (titleElement) {
+                titleElement.textContent = config.site_title || defaultConfig.site_title;
+                titleElement.style.color = config.title_color || defaultConfig.title_color;
+            }
+            
+            if (caElement) {
+                caElement.textContent = config.ca_address || defaultConfig.ca_address;
+            }
+            
+            if (buttonTextElement) {
+                buttonTextElement.textContent = config.button_text || defaultConfig.button_text;
+            }
+            
+            document.body.style.backgroundColor = config.background_color || defaultConfig.background_color;
+        }
+
+        function mapToCapabilities(config) {
+            return {
+                recolorables: [
+                    {
+                        get: () => config.background_color || defaultConfig.background_color,
+                        set: (value) => {
+                            config.background_color = value;
+                            window.elementSdk?.setConfig({ background_color: value });
+                        }
+                    },
+                    {
+                        get: () => config.title_color || defaultConfig.title_color,
+                        set: (value) => {
+                            config.title_color = value;
+                            window.elementSdk?.setConfig({ title_color: value });
+                        }
+                    },
+                    {
+                        get: () => config.button_color || defaultConfig.button_color,
+                        set: (value) => {
+                            config.button_color = value;
+                            window.elementSdk?.setConfig({ button_color: value });
+                        }
+                    },
+                    {
+                        get: () => config.text_color || defaultConfig.text_color,
+                        set: (value) => {
+                            config.text_color = value;
+                            window.elementSdk?.setConfig({ text_color: value });
+                        }
+                    }
+                ],
+                borderables: [],
+                fontEditable: undefined,
+                fontSizeable: undefined
+            };
+        }
+
+        function mapToEditPanelValues(config) {
+            return new Map([
+                ["site_title", config.site_title || defaultConfig.site_title],
+                ["ca_address", config.ca_address || defaultConfig.ca_address],
+                ["button_text", config.button_text || defaultConfig.button_text]
+            ]);
+        }
+
+        // Инициализация SDK
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig,
+                onConfigChange,
+                mapToCapabilities,
+                mapToEditPanelValues
+            });
+        }
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'995d8e03b752c072',t:'MTc2MTY4NzI0MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
